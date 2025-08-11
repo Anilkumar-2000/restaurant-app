@@ -15,18 +15,18 @@ const DishItem = props => {
 
   const renderControllerButton = () => {
     return (
-      <div className="quantity-inc-and-dec-btns">
+      <div className='quantity-inc-and-dec-btns'>
         <button
-          type="button"
-          className="quantity-button"
+          type='button'
+          className='quantity-button'
           onClick={() => decreaseFromCart(dishDetails)}
         >
           -
         </button>
         <p>{dishQuantity?.quantity || 0}</p>
         <button
-          type="button"
-          className="quantity-button"
+          type='button'
+          className='quantity-button'
           onClick={() => addToCart(dishDetails)}
         >
           +
@@ -36,8 +36,8 @@ const DishItem = props => {
   }
 
   return (
-    <div className="dish-item-container">
-      <div className="dish-text-details-container">
+    <div className='dish-item-container'>
+      <div className='dish-text-details-container'>
         <h1>{dishDetails.dishName}</h1>
         <p>
           {dishDetails.dishCurrency}
@@ -50,16 +50,16 @@ const DishItem = props => {
         <p>{dishDetails.dishDescription}</p>
         {dishDetails.dishAvailability && renderControllerButton()}
         {!dishDetails.dishAvailability && (
-          <p className="available-text">Not available</p>
+          <p className='available-text'>Not available</p>
         )}
         {dishDetails.addonCat.length !== 0 && (
-          <p className="custom-text">Customizations available</p>
+          <p className='custom-text'>Customizations available</p>
         )}
         {dishDetails.dishAvailability && <p>{}</p>}
       </div>
       <img
         alt={dishDetails.dishName}
-        className="dish-image"
+        className='dish-image'
         src={dishDetails.dishImage}
       />
     </div>
