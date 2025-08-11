@@ -1,0 +1,79 @@
+.dish-item-container {
+  background-color: transparent;
+  padding: 12px 24px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-shadow: none;
+}
+
+.dish-image {
+  height: 150px;
+  width: 150px;
+  box-shadow: none !important;
+  border-radius: 8px;
+}
+
+.dish-text-details-container {
+  box-shadow: none !important;
+  position: relative;
+  z-index: 0;
+}
+
+.dish-text-details-container p {
+  box-shadow: none !important;
+  position: relative;
+  z-index: 0;
+}
+
+.dish-text-details-container h1 {
+  box-shadow: none !important;
+  position: relative;
+  z-index: 0;
+  font-size: 20px;
+}
+
+.add-to-cart-btn {
+  background-color: orange;
+  padding: 12px 24px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  /* transition: box-shadow 0.3s ease; */
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+
+  font-weight: bold;
+  color: white;
+}
+
+.add-to-cart-btn:hover {
+  box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.35);
+  background-color: green;
+}
+
+.quantity-button {
+  background-color: orangered;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  color: black;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  border-radius: 7px;
+  transition: 0.3s ease;
+}
+
+.quantity-inc-and-dec-btns {
+  box-shadow: none !important;
+}
