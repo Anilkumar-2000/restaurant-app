@@ -4,48 +4,68 @@ export const CartContext = createContext()
 
 export const CartProvider = ({children}) => {
   const [cartList, setCartList] = useState([])
-  const [restaurantName, setRestaurantName] = useState('')
 
   const addToCart = dish => {
     setCartList(prevCart => {
-      const isExits = prevCart.find(item => item.dishId === dish.dishId)
+      const isItemExits = prevCart.find(item => item.dishId === dish.dishId)
 
-      if (isExits) {
-        return prevCart.map(dishItem =>
-          dishItem.dishId === dish.dishId
-            ? {...dishItem, quantity: dishItem.quantity + 1}
-            : dishItem,
+      if (isItemExits) {
+        return prevCart.map(item =>
+          item.dishId === dish.dishId
+            ? {...item, quantity: item.quantity + dish.quantity}
+            : item,
         )
       }
-
       return [...prevCart, {...dish, quantity: 1}]
     })
   }
 
-  const decreaseFromCart = dish => {
+  const increaseQuantity = id => {
     setCartList(prevCart => {
-      const existing = prevCart.find(
-        cartItem => cartItem.dishId === dish.dishId,
-      )
-
-      if (!existing) {
-        return prevCart
-      }
-
-      if (existing.quantity === 1) {
-        return prevCart.filter(cartItem => cartItem.dishId !== dish.dishId) // remove item
-      }
-      return prevCart.map(cartItem =>
-        cartItem.dishId === dish.dishId
-          ? {...cartItem, quantity: cartItem.quantity - 1}
-          : cartItem,
-      )
+      return prevCart.map(item => {
+        if (item.dishId === id) {
+          const updatedQuantity = item.quantity + 1
+          return {...item, quantity: updatedQuantity}
+        }
+        return item
+      })
     })
+  }
+
+  const decreaseQuantity = id => {
+    setCartList(prevCart => {
+      const updatedCart = prevCart.map(item => {
+        if (item.dishId === id) {
+          if (item.quantity > 1) {
+            const updatedQuantity = item.quantity - 1
+            return {...item, quantity: updatedQuantity}
+          }
+          return null
+        }
+        return item
+      })
+      return updatedCart.filter(item => item !== null)
+    })
+  }
+
+  const removeAll = () => {
+    setCartList([])
+  }
+
+  const removeItemFromCart = id => {
+    setCartList(prevCart => prevCart.filter(item => item.dishId !== id))
   }
 
   return (
     <CartContext.Provider
-      value={{addToCart, cartList, decreaseFromCart, setRestaurantName}}
+      value={{
+        cartList,
+        increaseQuantity,
+        decreaseQuantity,
+        addToCart,
+        removeAll,
+        removeItemFromCart,
+      }}
     >
       {children}
     </CartContext.Provider>

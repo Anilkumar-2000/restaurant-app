@@ -1,33 +1,45 @@
 import './index.css'
-import {useState, useContext} from 'react'
+import {useState, useContext, useEffect} from 'react'
 
 import {CartContext} from '../../context/CartContext'
 
 const DishItem = props => {
+  const {addToCart, cartList} = useContext(CartContext)
   const {dishDetails} = props
-  // console.log('dishes', dishDetails)
 
-  const {addToCart, cartList, decreaseFromCart} = useContext(CartContext)
+  const [quantity, setQuantity] = useState(0)
 
-  const dishQuantity = cartList.find(
-    eachDish => eachDish.dishId === dishDetails.dishId,
-  )
+  useEffect(() => {
+    const cartItemQuantity = cartList.find(
+      item => item.dishId === dishDetails.dishId,
+    )
+    const newQuantity = cartItemQuantity ? cartItemQuantity.quantity : 0
+    setQuantity(newQuantity)
+  }, [cartList, dishDetails.dishId])
+
+  const increaseQuantity = () => {
+    setQuantity(prevState => prevState + 1)
+  }
+
+  const decreaseQuantity = () => {
+    setQuantity(prevState => (prevState > 1 ? prevState - 1 : 0))
+  }
 
   const renderControllerButton = () => {
     return (
-      <div className='quantity-inc-and-dec-btns'>
+      <div className="quantity-inc-and-dec-btns">
         <button
-          type='button'
-          className='quantity-button'
-          onClick={() => decreaseFromCart(dishDetails)}
+          type="button"
+          className="quantity-button"
+          onClick={decreaseQuantity}
         >
           -
         </button>
-        <p>{dishQuantity?.quantity || 0}</p>
+        <p>{quantity}</p>
         <button
-          type='button'
-          className='quantity-button'
-          onClick={() => addToCart(dishDetails)}
+          type="button"
+          className="quantity-button"
+          onClick={increaseQuantity}
         >
           +
         </button>
@@ -36,13 +48,17 @@ const DishItem = props => {
   }
 
   return (
-    <div className='dish-item-container'>
-      <div className='dish-text-details-container'>
+    <div className="dish-item-container">
+      <img
+        alt={dishDetails.dishName}
+        className="dish-image-mobile-view"
+        src={dishDetails.dishImage}
+      />
+      <div className="dish-text-details-container">
         <h1>{dishDetails.dishName}</h1>
         <p>
           {dishDetails.dishCurrency}
-          {'   '}
-          {'   '}
+
           {dishDetails.dishPrice}
         </p>
         <p>{dishDetails.dishCalories} calories</p>
@@ -50,16 +66,24 @@ const DishItem = props => {
         <p>{dishDetails.dishDescription}</p>
         {dishDetails.dishAvailability && renderControllerButton()}
         {!dishDetails.dishAvailability && (
-          <p className='available-text'>Not available</p>
+          <p className="available-text">Not available</p>
         )}
         {dishDetails.addonCat.length !== 0 && (
-          <p className='custom-text'>Customizations available</p>
+          <p className="custom-text">Customizations available</p>
         )}
-        {dishDetails.dishAvailability && <p>{}</p>}
+        {quantity > 0 && (
+          <button
+            type="button"
+            className="add-to-cart-btn"
+            onClick={() => addToCart({...dishDetails, quantity})}
+          >
+            ADD TO CART
+          </button>
+        )}
       </div>
       <img
         alt={dishDetails.dishName}
-        className='dish-image'
+        className="dish-image"
         src={dishDetails.dishImage}
       />
     </div>

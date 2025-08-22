@@ -1,0 +1,89 @@
+.Login-main-container {
+  background-color: antiquewhite;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-page {
+  background-color: white;
+  padding-bottom: 20px;
+  width: 25vw;
+  border-radius: 10px;
+}
+
+.login-title {
+  text-align: center;
+  color: orangered;
+}
+
+@media (max-width: 968px) {
+  .Login-main-container {
+    padding: 30px;
+  }
+
+  .login-page {
+    width: 50vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .Login-main-container {
+    padding: 30px;
+  }
+
+  .login-page {
+    width: 80vw;
+  }
+}
+
+.label-and-input-cont {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 30px;
+  margin-bottom: 0px;
+}
+
+.input-cont {
+  border: 2px solid #666;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 5px;
+}
+
+.user-input {
+  height: 35px;
+  border: none;
+  padding: 5px 10px;
+  outline: none;
+}
+
+.login-button-cont {
+  padding: 10px 30px;
+  width: 100%;
+}
+
+.login-btn {
+  background-color: orangered;
+  color: white;
+  border-radius: 4px;
+  height: 35px;
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.password-toggle-btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.error-msg-text {
+  color: red;
+  font-size: 12px;
+}

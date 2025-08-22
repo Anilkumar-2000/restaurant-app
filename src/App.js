@@ -1,25 +1,25 @@
-import './App.css'
-import Home from './components/Home'
-
-import Header from './components/Header'
-import Cart from './components/Cart'
-
 import {useState} from 'react'
+import {Switch, Route} from 'react-router-dom'
 import {CartProvider} from './context/CartContext'
+
+import Home from './components/Home'
+import Login from './components/Login'
+
+import Cart from './components/Cart'
+import ProtectedRoute from './components/ProtectedRoute'
+
+import './App.css'
 
 //write your code here
 const App = () => {
-  const [isCartOpen, setIsCartOpen] = useState(false)
-
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen)
-    console.log(isCartOpen)
-  }
-
   return (
     <>
       <CartProvider>
-        <Home />
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <ProtectedRoute exact path="/" component={Home} />
+          <ProtectedRoute exact path="/cart" component={Cart} />
+        </Switch>
       </CartProvider>
     </>
   )

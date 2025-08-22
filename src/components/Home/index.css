@@ -5,12 +5,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 50px;
 }
 
 .res-image {
   height: 250px;
   width: 350px;
   border-radius: 10px;
+  margin-top: 20px;
 }
 
 .restaurant-info-container {
@@ -18,12 +20,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 20px;
 }
 
 .tab-list-container {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  margin-top: 20px;
 }
 
 .tab-btn {
@@ -80,3 +84,12 @@
     display: none;
   }
 } */
+
+.loader-container {
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: orange;
+}

@@ -8,13 +8,14 @@
   color: white;
   position: fixed;
   z-index: 1000;
+  /* border: 2px solid red; */
 }
 
 .my-orders-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 200px;
+  width: 300px;
 }
 
 .my-orders-container h1 {
@@ -43,5 +44,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
- 
 }
