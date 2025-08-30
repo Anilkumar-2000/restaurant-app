@@ -1,140 +1,109 @@
 .dish-item-container {
-  background-color: transparent;
-  padding: 12px 24px;
-  font-size: 15px;
-  cursor: pointer;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
+  border: 1px solid gray;
+  border-radius: 12px;
   justify-content: space-between;
-  width: 100%;
-  box-shadow: none;
 }
 
-@media screen and (max-width: 768px) {
-  .dish-item-container {
-    display: flex;
-    flex-direction: column;
-  }
+.veg-border {
+  border: 1px solid #00923f;
+  align-self: flex-start;
 }
 
- .dish-image {
-    height: 170px;
-    width: 250px;
-    box-shadow: none !important;
-    border-radius: 8px;
-   
-  }
-
-
-.dish-image-mobile-view {
-  display: none;
-}
-@media screen and (max-width: 768px) {
-  .dish-image {
-    height: 150px;
-    width: 150px;
-    box-shadow: none !important;
-    border-radius: 8px;
-    display: none !important;
-  }
-
-  .dish-image-mobile-view {
-    display: block;
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 15px;
-  }
+.non-veg-border {
+  border: 1px solid #92282a;
 }
 
-.dish-text-details-container {
-  box-shadow: none !important;
-  /* position: relative;
-  z-index: 0; */
-  /* border: 2px solid red; */
-  width: 100%;
+.veg-round {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-color: #00923f;
+  margin: 5px;
 }
 
-@media screen and (max-width: 768px) {
-  .dish-text-details-container {
-    display: flex;
-
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1;
-  }
+.non-veg-round {
+  background-color: #92282a;
 }
 
-.dish-text-details-container p {
-  box-shadow: none !important;
-  position: relative;
-  z-index: 0;
+.dish-details-container {
+  flex-grow: 1;
 }
 
-.dish-text-details-container h1 {
-  box-shadow: none !important;
-  position: relative;
-  z-index: 0;
-  font-size: 20px;
+.dish-name {
+  font-weight: 600;
+  font-family: 'Roboto';
+  font-size: 25px;
+  margin-top: 0;
 }
 
-.add-to-cart-btn {
-  background-color: orange;
-  padding: 12px 24px;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
-  border-radius: 8px;
-  /* transition: box-shadow 0.3s ease; */
-  transition:
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
-
-  font-weight: bold;
-  color: white;
+.dish-currency-price {
+  color: #525252;
+  font-weight: 600;
+  font-family: 'Roboto';
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-.add-to-cart-btn:hover {
-  box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.35);
-  background-color: green;
+.dish-description {
+  color: #bfc3c7;
+  font-weight: 500;
+  font-family: 'Roboto';
+  font-size: 16px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
-.quantity-button {
-  background-color: orangered;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  color: black;
-  opacity: 1;
-  pointer-events: auto;
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
-  border-radius: 7px;
-  transition: 0.3s ease;
+.controller-container {
+  width: fit-content;
+  min-width: 150px;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 50px;
 }
 
-.quantity-inc-and-dec-btns {
-  box-shadow: none !important;
-}
-
-.custom-text {
-  color: green;
-  font-weight: bold;
-}
-
-.available-text {
-  color: red;
-  font-weight: bold;
-}
-
-.add-to-cart-btn {
-  background-color: orange;
-  color: white;
+.button {
+  padding: 5px;
+  background-color: transparent;
   border: none;
   outline: none;
-  border-radius: 5px;
-  padding: 8px 8px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.quantity {
+  margin: 0 10px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.not-availability-text {
+  font-weight: 500;
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.addon-availability-text {
+  font-weight: 500;
+  font-size: 18px;
+  margin: 5px 0;
+  color: #734ff4;
+}
+
+.dish-calories {
+  min-width: 150px;
+  max-width: 250px;
+  font-weight: 500;
+  font-family: 'Roboto';
+  font-size: 18px;
+  align-self: center;
+}
+
+.dish-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  align-self: flex-start;
 }

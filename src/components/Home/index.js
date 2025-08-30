@@ -1,174 +1,119 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
+
+import Header from '../Header'
+import DishItem from '../DishItem'
+
+import CartContext from '../../context/CartContext'
 
 import './index.css'
-import Loader from 'react-loader-spinner'
-import DishItem from '../DishItem'
-import Header from '../Header'
-
-const apiConstants = {
-  initial: 'INITIAL',
-  success: 'SUCCESS',
-  failure: 'FAILURE',
-  loading: 'LOADING',
-}
 
 const Home = () => {
-  const [restaurentInfo, setRestaurantInfo] = useState([])
-  const [menuList, setMenuList] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [response, setResponse] = useState([])
   const [activeCategoryId, setActiveCategoryId] = useState('')
 
-  const [apiStatus, setApiStatus] = useState(apiConstants.initial)
+  const {cartList, setRestaurantName} = useContext(CartContext)
 
-  useEffect(() => {
-    setApiStatus(apiConstants.loading)
-    const getRestaurantInfo = async () => {
-      const apiUrl =
-        'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details'
+  const getUpdatedData = tableMenuList =>
+    tableMenuList.map(eachMenu => ({
+      menuCategory: eachMenu.menu_category,
+      menuCategoryId: eachMenu.menu_category_id,
+      menuCategoryImage: eachMenu.menu_category_image,
+      categoryDishes: eachMenu.category_dishes.map(eachDish => ({
+        dishId: eachDish.dish_id,
+        dishName: eachDish.dish_name,
+        dishPrice: eachDish.dish_price,
+        dishImage: eachDish.dish_image,
+        dishCurrency: eachDish.dish_currency,
+        dishCalories: eachDish.dish_calories,
+        dishDescription: eachDish.dish_description,
+        dishAvailability: eachDish.dish_Availability,
+        dishType: eachDish.dish_Type,
+        addonCat: eachDish.addonCat,
+      })),
+    }))
 
-      const response = await fetch(apiUrl)
-      const data = await response.json()
-      // console.log(data)
-
-      if (response.ok) {
-        const formattedData = {
-          restaurantName: data[0].restaurant_name,
-          restaurantImage: data[0].restaurant_image,
-          branchName: data[0].branch_name,
-        }
-        setRestaurantInfo(formattedData)
-        setApiStatus(apiConstants.success)
-      } else {
-        setApiStatus(apiConstants.failure)
-      }
-    }
-    getRestaurantInfo()
-  }, [])
-
-  useEffect(() => {
-    setApiStatus(apiConstants.loading)
-    const getRestaurantInfo = async () => {
-      const apiUrl =
-        'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details'
-
-      const response = await fetch(apiUrl)
-      const data = await response.json()
-      // console.log(data)
-
-      if (response.ok) {
-        const formattedMenuList = data[0].table_menu_list.map(eachCategory => ({
-          menuCategory: eachCategory.menu_category,
-          menuCategoryId: eachCategory.menu_category_id,
-          menuCategoryImage: eachCategory.menu_category_image,
-          categoryDishes: eachCategory.category_dishes.map(eachDish => ({
-            dishId: eachDish.dish_id,
-            dishImage: eachDish.dish_image,
-            dishName: eachDish.dish_name,
-            dishDescription: eachDish.dish_description,
-            dishPrice: eachDish.dish_price,
-            dishCalories: eachDish.dish_calories,
-            dishType: eachDish.dish_Type,
-            dishCurrency: eachDish.dish_currency,
-            dishAvailability: eachDish.dish_Availability,
-            addonCat: eachDish.addonCat,
-          })),
-        }))
-
-        setMenuList(formattedMenuList)
-        setApiStatus(apiConstants.success)
-        setActiveCategoryId(formattedMenuList[0].menuCategoryId)
-      } else {
-        setApiStatus(apiConstants.failure)
-      }
-    }
-    getRestaurantInfo()
-  }, [])
-
-  useEffect(() => {
-    // console.log('restaurant info : ', restaurentInfo)
-    // console.log('Menu List', menuList)
-  }, [restaurentInfo, menuList])
-
-  const renderTabList = () => {
-    return (
-      <div className="tab-list-container">
-        {menuList.map(eachTab => (
-          <button
-            className={`tab-btn ${
-              eachTab.menuCategoryId === activeCategoryId
-                ? 'active-btn'
-                : 'inactive-btn'
-            }`}
-            type="button"
-            onClick={() => {
-              setActiveCategoryId(eachTab.menuCategoryId)
-            }}
-            key={eachTab.menuCategoryId}
-          >
-            {eachTab.menuCategory}
-          </button>
-        ))}
-      </div>
-    )
+  const fetchRestaurantApi = async () => {
+    const api = 'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details'
+    const apiResponse = await fetch(api)
+    const data = await apiResponse.json()
+    const updatedData = getUpdatedData(data[0].table_menu_list)
+    setResponse(updatedData)
+    setRestaurantName(data[0].restaurant_name)
+    setActiveCategoryId(updatedData[0].menuCategoryId)
+    setIsLoading(false)
   }
 
+  useEffect(() => {
+    fetchRestaurantApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const onUpdateActiveCategoryIdx = menuCategoryId =>
+    setActiveCategoryId(menuCategoryId)
+
+  const addItemToCart = () => {}
+
+  const removeItemFromCart = () => {}
+
+  const renderTabMenuList = () =>
+    response.map(eachCategory => {
+      const onClickHandler = () =>
+        onUpdateActiveCategoryIdx(eachCategory.menuCategoryId)
+
+      return (
+        <li
+          className={`each-tab-item ${
+            eachCategory.menuCategoryId === activeCategoryId
+              ? 'active-tab-item'
+              : ''
+          }`}
+          key={eachCategory.menuCategoryId}
+          onClick={onClickHandler}
+        >
+          <button
+            type="button"
+            className="mt-0 mb-0 ms-2 me-2 tab-category-button"
+          >
+            {eachCategory.menuCategory}
+          </button>
+        </li>
+      )
+    })
+
   const renderDishes = () => {
-    const dishes = menuList.find(
+    const {categoryDishes} = response.find(
       eachCategory => eachCategory.menuCategoryId === activeCategoryId,
     )
 
-    if (!dishes) return
-
     return (
-      <div className="dish-items-container">
-        {dishes.categoryDishes.map(each => (
-          <DishItem key={each.dishId} dishDetails={each} />
+      <ul className="m-0 d-flex flex-column dishes-list-container">
+        {categoryDishes.map(eachDish => (
+          <DishItem
+            key={eachDish.dishId}
+            dishDetails={eachDish}
+            addItemToCart={addItemToCart}
+            removeItemFromCart={removeItemFromCart}
+          />
         ))}
-      </div>
+      </ul>
     )
   }
 
-  const renderLoader = () => (
-    <div className="loader-container">
-      <Loader type="ThreeDots" height={60} width={60} />
+  const renderSpinner = () => (
+    <div className="spinner-container">
+      <div className="spinner-border" role="status" />
     </div>
   )
 
-  const renderFailureView = () => (
-    <p>Failed to fetch dishes, Please try again</p>
-  )
-
-  const renderApiConstants = () => {
-    console.log(apiStatus)
-    switch (apiStatus) {
-      case apiConstants.success:
-        return renderDishes()
-      case apiConstants.failure:
-        return renderFailureView()
-      case apiConstants.loading:
-        return renderLoader()
-      default:
-        return null
-    }
-  }
-
-  return (
-    <>
-      <div>
-        <Header restaurentInfo={restaurentInfo} />
-      </div>
-
-      <div className="home-main-container">
-        <div className="restaurant-info-container">
-          <img
-            alt="resimge"
-            className="res-image"
-            src={restaurentInfo.restaurantImage}
-          />
-        </div>
-        {renderTabList()}
-        {renderApiConstants()}
-      </div>
-    </>
+  return isLoading ? (
+    renderSpinner()
+  ) : (
+    <div className="home-background">
+      <Header cartItems={cartList} />
+      <ul className="m-0 ps-0 d-flex tab-container">{renderTabMenuList()}</ul>
+      {renderDishes()}
+    </div>
   )
 }
 

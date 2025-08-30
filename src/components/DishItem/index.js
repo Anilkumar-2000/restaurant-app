@@ -1,92 +1,80 @@
+import {useState, useContext} from 'react'
+
+import CartContext from '../../context/CartContext'
+
 import './index.css'
-import {useState, useContext, useEffect} from 'react'
 
-import {CartContext} from '../../context/CartContext'
-
-const DishItem = props => {
-  const {addToCart, cartList} = useContext(CartContext)
-  const {dishDetails} = props
+const DishItem = ({dishDetails}) => {
+  const {
+    dishName,
+    dishType,
+    dishPrice,
+    dishCurrency,
+    dishDescription,
+    dishImage,
+    dishCalories,
+    addonCat,
+    dishAvailability,
+  } = dishDetails
 
   const [quantity, setQuantity] = useState(0)
+  const {addCartItem} = useContext(CartContext)
 
-  useEffect(() => {
-    const cartItemQuantity = cartList.find(
-      item => item.dishId === dishDetails.dishId,
-    )
-    const newQuantity = cartItemQuantity ? cartItemQuantity.quantity : 0
-    setQuantity(newQuantity)
-  }, [cartList, dishDetails.dishId])
+  const onIncreaseQuantity = () => setQuantity(prevState => prevState + 1)
 
-  const increaseQuantity = () => {
-    setQuantity(prevState => prevState + 1)
-  }
+  const onDecreaseQuantity = () =>
+    setQuantity(prevState => (prevState > 0 ? prevState - 1 : 0))
 
-  const decreaseQuantity = () => {
-    setQuantity(prevState => (prevState > 1 ? prevState - 1 : 0))
-  }
+  const onAddItemToCart = () => addCartItem({...dishDetails, quantity})
 
-  const renderControllerButton = () => {
-    return (
-      <div className="quantity-inc-and-dec-btns">
-        <button
-          type="button"
-          className="quantity-button"
-          onClick={decreaseQuantity}
-        >
-          -
-        </button>
-        <p>{quantity}</p>
-        <button
-          type="button"
-          className="quantity-button"
-          onClick={increaseQuantity}
-        >
-          +
-        </button>
-      </div>
-    )
-  }
+  const renderControllerButton = () => (
+    <div className="controller-container d-flex align-items-center bg-success">
+      <button className="button" type="button" onClick={onDecreaseQuantity}>
+        -
+      </button>
+      <p className="quantity">{quantity}</p>
+      <button className="button" type="button" onClick={onIncreaseQuantity}>
+        +
+      </button>
+    </div>
+  )
 
   return (
-    <div className="dish-item-container">
-      <img
-        alt={dishDetails.dishName}
-        className="dish-image-mobile-view"
-        src={dishDetails.dishImage}
-      />
-      <div className="dish-text-details-container">
-        <h1>{dishDetails.dishName}</h1>
-        <p>
-          {dishDetails.dishCurrency}
-
-          {dishDetails.dishPrice}
+    <li className="mb-3 p-3 dish-item-container d-flex">
+      <div
+        className={`veg-border ${dishType === 1 ? 'non-veg-border' : ''} me-3`}
+      >
+        <div className={`veg-round ${dishType === 1 ? 'non-veg-round' : ''}`} />
+      </div>
+      <div className="dish-details-container">
+        <h1 className="dish-name">{dishName}</h1>
+        <p className="dish-currency-price">
+          {dishCurrency} {dishPrice}
         </p>
-        <p>{dishDetails.dishCalories} calories</p>
-
-        <p>{dishDetails.dishDescription}</p>
-        {dishDetails.dishAvailability && renderControllerButton()}
-        {!dishDetails.dishAvailability && (
-          <p className="available-text">Not available</p>
+        <p className="dish-description">{dishDescription}</p>
+        {dishAvailability && renderControllerButton()}
+        {!dishAvailability && (
+          <p className="not-availability-text text-danger">Not available</p>
         )}
-        {dishDetails.addonCat.length !== 0 && (
-          <p className="custom-text">Customizations available</p>
+        {addonCat.length !== 0 && (
+          <p className="addon-availability-text mb-0">
+            Customizations available
+          </p>
         )}
         {quantity > 0 && (
           <button
             type="button"
-            className="add-to-cart-btn"
-            onClick={() => addToCart({...dishDetails, quantity})}
+            className="btn btn-outline-primary mt-3"
+            onClick={onAddItemToCart}
           >
             ADD TO CART
           </button>
         )}
       </div>
-      <img
-        alt={dishDetails.dishName}
-        className="dish-image"
-        src={dishDetails.dishImage}
-      />
-    </div>
+
+      <p className="dish-calories text-warning">{dishCalories} calories</p>
+      <img className="dish-image" alt={dishName} src={dishImage} />
+    </li>
   )
 }
 

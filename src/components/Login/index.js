@@ -8,7 +8,7 @@ import {Redirect} from 'react-router-dom'
 const Login = props => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPasword] = useState(false)
+
   const [errorMsg, setErrorMsg] = useState('')
   const [showErrorMsg, setShowErrorMsg] = useState(false)
 

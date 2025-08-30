@@ -1,47 +1,65 @@
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  background-color: orange;
-  box-shadow: 4px 4px 10 20px rgba(0, 0, 0, 0.3);
-  color: white;
-  position: fixed;
-  z-index: 1000;
-  /* border: 2px solid red; */
+.nav-header {
+  box-shadow: 0px 10px 10px -15px #111;
 }
 
-.my-orders-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 300px;
+.nav-header a {
+  text-decoration: none;
 }
 
-.my-orders-container h1 {
-  font-size: 20px;
+.logo-heading {
+  font-family: 'Roboto';
+  font-weight: 600;
+  font-size: 35px;
+  color: #1f1f1f;
 }
 
-.cart-btn {
-  background-color: transparent;
-  font-size: 25px;
+@media screen and (max-width: 576px) {
+  .logo-heading {
+    font-size: 25px;
+  }
+}
+
+.my-orders-text {
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 18px;
+  color: #585555;
+  text-decoration: none;
+}
+
+.cart-icon-link {
+  position: relative;
+}
+
+.cart-icon-button {
   border: none;
   outline: none;
-  cursor: pointer;
-  color: white;
-  display: flex;
-  align-items: center;
-  height: 30px;
+  background-color: transparent;
+  padding: 0;
 }
 
-.cart-length {
-  height: 20px;
-  width: 20px;
-  border-radius: 30px;
-  background-color: mediumvioletred;
-  color: white;
+.cart-icon {
+  font-size: 35px;
+  color: #585555;
+}
+
+.cart-count-badge {
+  background-color: #ff6347;
+  position: absolute;
+  top: -13px;
+  right: -8px;
+  height: 25px;
+  min-width: 25px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.cart-count {
+  text-align: center;
+  color: #ffff;
+  font-family: 'Roboto';
+  font-weight: 500;
   font-size: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
 }
